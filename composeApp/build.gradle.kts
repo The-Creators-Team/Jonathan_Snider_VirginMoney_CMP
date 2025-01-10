@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
+
 }
 
 kotlin {
@@ -59,6 +60,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            //engine specifically for java libraries when using ktor
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.kotlinx.datetime)
@@ -71,15 +75,25 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            //implementation(libs.navigation.compose)
             implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.bundles.ktor)
 
         }
         desktopMain.dependencies {
 
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            //engine specifically for java libraries when using ktor
+            implementation(libs.ktor.client.okhttp)
+
+
+        }
+        nativeMain.dependencies {
+            //specifically for apple
+            implementation(libs.ktor.client.darwin)
         }
         wasmJsMain.dependencies {
             implementation(npm("@js-joda/timezone", "2.3.0"))
