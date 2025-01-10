@@ -3,7 +3,13 @@ package compose.project.demo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import model.Room
 import networking.RoomClient
@@ -24,23 +31,26 @@ fun RoomScreen(
     roomClient: RoomClient,
     navigateToPeopleScreen: () -> Unit
 ) {
-    val scope= rememberCoroutineScope()
-    
-    var roomList by remember { mutableStateOf(emptyList<Room>())}
+    val scope = rememberCoroutineScope()
+
+    var roomList by remember { mutableStateOf(emptyList<Room>()) }
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
+        LazyColumn {
+            items(roomList.size) { room ->
+                RoomCard(
+                    room = roomList[room]
+                )
+            }
+        }
+        if (roomList.isEmpty()) {
+            Text(text = "waiting for room")
+        }
+
         Column {
-            Text(
-                text = if(roomList.isEmpty()){
-                    "waiting for room"
-                }
-                else {
-                    roomList[0].toString()
-                }
-            )
             Button(
                 onClick = {
                     scope.launch {
@@ -48,7 +58,7 @@ fun RoomScreen(
                         roomClient.getRooms()
                             .onSuccess {
                                 println("PRINTING SUCCESS")
-                                roomList=it
+                                roomList = it
                                 println(it)
                             }
                             .onError {
@@ -73,6 +83,35 @@ fun RoomScreen(
             ) {
                 Text("Go To People Screen")
             }
+        }
+    }
+}
+
+@Composable
+fun RoomCard(
+    room: Room,
+) {
+    Card(
+
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        backgroundColor = MaterialTheme.colors.surface
+    ) {
+        Column(
+            modifier = Modifier
+                .height(120.dp)
+                .padding(16.dp),
+        ) {
+            Text(
+                text = room.id!!,
+            )
+            Text(
+                text = room.isOccupied.toString()
+            )
+            Text(
+                text = room.maxOccupancy.toString()
+            )
         }
     }
 }

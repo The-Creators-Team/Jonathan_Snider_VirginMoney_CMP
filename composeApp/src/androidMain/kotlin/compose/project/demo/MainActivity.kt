@@ -3,8 +3,11 @@ package compose.project.demo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import networking.RoomClient
 import networking.createHttpClient
@@ -15,18 +18,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App(
-                roomClient = remember{
-                    RoomClient(createHttpClient(OkHttp.create()))
-                }
-            )
+            MaterialTheme {
+                App(
+                    roomClient = remember {
+                        RoomClient(createHttpClient(OkHttp.create()))
+                    }
+                )
+            }
         }
     }
 }
 
-/*
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
-}*/
+
+
