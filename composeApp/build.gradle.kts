@@ -95,6 +95,9 @@ kotlin {
             //specifically for apple
             implementation(libs.ktor.client.darwin)
         }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
         wasmJsMain.dependencies {
             implementation(npm("@js-joda/timezone", "2.3.0"))
         }

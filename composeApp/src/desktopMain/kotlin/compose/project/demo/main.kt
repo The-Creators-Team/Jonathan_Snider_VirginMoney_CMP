@@ -1,11 +1,15 @@
 package compose.project.demo
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import io.ktor.client.engine.okhttp.OkHttp
+import networking.RoomClient
+import networking.createHttpClient
 
 fun main() = application {
     val state = rememberWindowState(
@@ -16,6 +20,10 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "ComposeDemo",
     ) {
-        App()
+        App(
+            roomClient = remember{
+                RoomClient(createHttpClient(OkHttp.create()))
+            }
+        )
     }
 }
