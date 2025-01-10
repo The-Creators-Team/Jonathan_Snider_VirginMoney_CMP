@@ -6,6 +6,4 @@ import repository.RoomRepositoryImpl
 class RoomViewModel(
     val repositoryImpl: RoomRepositoryImpl
 ) : ViewModel()  {
-
-
 }

@@ -63,6 +63,7 @@ kotlin {
 
             //engine specifically for java libraries when using ktor
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
             implementation(libs.kotlinx.datetime)
@@ -73,6 +74,12 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
+
+            implementation(libs.kotlinx.coroutines.core)
+
+            //implementation(libs.androidx.lifecycle.livedata)
+            //implementation(libs.androidx.runtime.livedata)
+
             implementation(libs.androidx.lifecycle.runtime.compose)
 
             implementation(libs.navigation.compose)
@@ -92,10 +99,10 @@ kotlin {
 
         }
         nativeMain.dependencies {
-            //specifically for apple
             implementation(libs.ktor.client.darwin)
         }
         iosMain.dependencies {
+            //specifically for apple
             implementation(libs.ktor.client.darwin)
         }
         wasmJsMain.dependencies {
